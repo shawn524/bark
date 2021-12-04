@@ -1,4 +1,9 @@
-<%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+<% @dogs.each.with_index do |d,i| %>
+  <%= render partial: 'thumbnail', locals: {dog: d} %>
+  <% if (i + 1) % 2 == 0 %>
+    <%= image_tag("ad.jpg") %>
+  <% end %>
+<% end %>
 <div class="digg_pagination center">
   <%= will_paginate @dogs %>
 </div>
