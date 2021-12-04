@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe 'Dog resource', type: :feature do
+  before :each do
+    @user = create(:user)
+    login_as(@user, scope: :user)
+  end
+
   it 'can create a profile' do
     visit new_dog_path
     fill_in 'Name', with: 'Speck'
