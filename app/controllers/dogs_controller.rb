@@ -5,7 +5,11 @@ class DogsController < ApplicationController
   # GET /dogs
   # GET /dogs.json
   def index
-    @dogs = Dog.paginate(page: params[:page], per_page: 5)
+    if params[:sort]
+      @dogs = Dog.where("updated_at > ?", 1.hour.ago).order(cached_votes_total: :desc).paginate(page: params[:page], per_page: 5)
+    else
+      @dogs = Dog.paginate(page: params[:page], per_page: 5)
+    end
   end
 
   # GET /dogs/1
@@ -89,6 +93,7 @@ class DogsController < ApplicationController
       end
     else
       @dog.liked_by current_user
+      @dog.touch #hack
       respond_to do |format|
         format.html { redirect_back fallback_location: dogs_url, notice: "That's a good dog." }
         format.json { render :show, status: :ok, location: @dog }
