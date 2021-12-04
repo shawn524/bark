@@ -4,7 +4,7 @@ class DogsController < ApplicationController
   # GET /dogs
   # GET /dogs.json
   def index
-    @dogs = Dog.all
+    @dogs = Dog.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /dogs/1
@@ -74,6 +74,6 @@ class DogsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def dog_params
-    params.require(:dog).permit(:name, :description, :images)
+    params.require(:dog).permit(:name, :description, :images, :page)
   end
 end
