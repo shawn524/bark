@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'will_paginate', '~> 3.3'
+gem 'acts_as_votable', '~> 0.13.2'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

@@ -15,6 +15,7 @@
         <h1><%= link_to 'Dog Profile Demo', root_path %></h1>
         <div class="actions">
           <% if current_user %>
+            <%= link_to 'Most liked', dogs_path(:sort => true) %>
             <%= link_to 'Add your dog', new_dog_path %>
             <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
           <% else %>

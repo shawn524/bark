@@ -1,6 +1,6 @@
 class DogsController < ApplicationController
-  before_action :set_dog, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :set_dog, only: [:show, :edit, :update, :destroy, :like]
+  # before_action :authenticate_user!
 
   # GET /dogs
   # GET /dogs.json
@@ -77,6 +77,22 @@ class DogsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to dogs_url, notice: 'Dog was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def like
+    if @dog.user_id == current_user.id
+      respond_to do |format|
+        # raise
+        format.html { redirect_back fallback_location: dogs_url, alert: "Can't like your own dog." }
+        format.json { render json: @dog.errors, status: :unprocessable_entity }
+      end
+    else
+      @dog.liked_by current_user
+      respond_to do |format|
+        format.html { redirect_back fallback_location: dogs_url, notice: "That's a good dog." }
+        format.json { render :show, status: :ok, location: @dog }
+      end
     end
   end
 

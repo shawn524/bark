@@ -1,6 +1,13 @@
 <a href="<%= url_for(dog) %>">
   <article>
-    <h2 class="dog-name"><%= dog.name %></h2>
+    <div>
+      <h2 class="dog-name"><%= dog.name %></h2>
+      <% if user_signed_in? %>
+        <%=link_to like_dog_path(dog), method: :put, class: 'btn btn-default btn-sm' do %>
+          likes <%=dog.get_upvotes.size%></td>
+        <% end %>
+      <% end %>
+    </div>
     <%= image_tag url_for(dog.images.first), class: "dog-photo", alt: "Photo of #{dog.name}" %>
   </article>
 </a>
