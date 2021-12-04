@@ -19,3 +19,11 @@ header {
   display: flex;
   justify-content: space-between;
 }
+
+.notice {
+  color: green;
+}
+
+.alert {
+  color: red;
+}

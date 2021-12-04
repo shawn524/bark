@@ -1,5 +1,6 @@
 class DogsController < ApplicationController
   before_action :set_dog, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /dogs
   # GET /dogs.json
@@ -19,6 +20,12 @@ class DogsController < ApplicationController
 
   # GET /dogs/1/edit
   def edit
+    unless @dog.user_id == current_user.id
+      respond_to do |format|
+        format.html { redirect_to dog_path, alert: "Not yo dog, dog." }
+        format.json { render json: @dog.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /dogs
@@ -82,6 +89,7 @@ class DogsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def dog_params
-    params.require(:dog).permit(:name, :description, :images)
+    params[:dog].merge!(:user_id => current_user.id)
+    params.require(:dog).permit(:name, :description, :images, :user_id)
   end
 end
